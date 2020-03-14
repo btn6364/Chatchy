@@ -4,10 +4,11 @@ const path = require("path");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
 const emoji = require("node-emoji");
+const anchorme = require("anchorme").default;
 
+//utils
 const { generateMessage, generateLocationMessage } = require("./utils/messages");
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./utils/users");
-
 
 const app = express();
 const server = http.createServer(app);
@@ -37,7 +38,7 @@ io.on("connection", (socket) => {
         socket.join(user.room);
 
         //send to just that socket
-        socket.emit("message", generateMessage("Admin", emoji.emojify(`Welcome! :rabbit:`)));
+        socket.emit("message", generateMessage("Admin", emoji.emojify(`Welcome to Chatchy, start a conversation with your friends! :monkey:`)));
         //send info to all sockets but itself
         socket.broadcast.to(user.room).emit("message", generateMessage("Admin", `${user.username} has joined room ${user.room}`));
 
@@ -56,8 +57,11 @@ io.on("connection", (socket) => {
         if (filter.isProfane(message)){
             return callback("Profanity is not allowed!");
         }
-    
-        io.to(user.room).emit("message", generateMessage(user.username, emoji.emojify(message)));
+        
+        message = anchorme(message);
+        message = emoji.emojify(message);
+
+        io.to(user.room).emit("message", generateMessage(user.username, message));
         callback();
     });
 

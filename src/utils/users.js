@@ -1,3 +1,4 @@
+//collection of users
 const users = [];
 
 
