@@ -3,6 +3,8 @@ const http = require("http");
 const path = require("path");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
+const emoji = require("node-emoji");
+
 const { generateMessage, generateLocationMessage } = require("./utils/messages");
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./utils/users");
 
@@ -35,11 +37,10 @@ io.on("connection", (socket) => {
         socket.join(user.room);
 
         //send to just that socket
-        socket.emit("message", generateMessage("Admin", "Welcome!"));
+        socket.emit("message", generateMessage("Admin", emoji.emojify(`Welcome! :rabbit:`)));
         //send info to all sockets but itself
         socket.broadcast.to(user.room).emit("message", generateMessage("Admin", `${user.username} has joined room ${user.room}`));
-        //socket.emit, io.emit, socket.broadcast.emit
-        //io.to.emit, socket.broadcast.to.emit 
+
 
         io.to(user.room).emit("roomData", {
             room: user.room, 
@@ -56,7 +57,7 @@ io.on("connection", (socket) => {
             return callback("Profanity is not allowed!");
         }
     
-        io.to(user.room).emit("message", generateMessage(user.username, message));
+        io.to(user.room).emit("message", generateMessage(user.username, emoji.emojify(message)));
         callback();
     });
 

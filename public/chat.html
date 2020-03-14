@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chaty</title>
+
     <link rel="icon" href="/img/favicon.png">
     <link rel="stylesheet" href="/css/styles.min.css">
+  
 </head>
 <body>
     <div class="chat">
@@ -16,7 +18,7 @@
 
             <div class="compose">
                 <form id="message-form">
-                    <input type="text" placeholder="Enter message here" name="message" required autocomplete="off">
+                    <input data-emojiable="true" type="text" placeholder="Enter message here" name="message" required autocomplete="off">
                     <button>Send</button>
                 </form>
     
@@ -59,9 +61,12 @@
         </ul>
     </script>
 
+    <!-- Outside scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+
+
     <!-- client side socket -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
